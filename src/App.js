@@ -1,24 +1,43 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Home from './components/Home';
+import Navbar from './components/Navbar';
+import React, { useState } from 'react';
+import NoteState from './context/notes/NoteState';
+import Login from './components/user/Login'
+import Signup from './components/user/Signup'
+
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+
 
 function App() {
+  const [ShowDisplay, setDisplay] = useState("none")
+  const clickNote = () => {
+    if (ShowDisplay === "display") {
+      setDisplay("none")
+    } else {
+      setDisplay("display")
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <NoteState>
+        <BrowserRouter>
+          <Navbar clickNote={clickNote} />
+          <Routes>
+            <Route exact path="/" element={ <Home setDisplay={ShowDisplay} clickNote={clickNote} />} />
+            <Route exact path="/login" element={ <Login />} />
+            <Route exact path="/signup" element={ <Signup />} />
+
+          </Routes>
+        </BrowserRouter>
+      </NoteState>
+
+    </>
   );
 }
 
